@@ -7,9 +7,15 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
-
+```{r echo=TRUE}
+myact <- read.csv("activity.csv")
+str(myact)
+```
+Convert interval to a factor for analysis
+```{r echo=TRUE}
+myact$interval <- factor(myact$interval)
+str(myact)
+```
 ## What is mean total number of steps taken per day?
 
 
