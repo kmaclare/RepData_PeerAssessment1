@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
+title: "Reproducible Research: Peer Assessment 1, Keith Maclaren"
 output: 
   html_document:
     keep_md: true
@@ -17,7 +17,23 @@ myact$interval <- factor(myact$interval)
 str(myact)
 ```
 ## What is mean total number of steps taken per day?
+Calculate Total steps taken per day:
+```{r echo=TRUE}
+newdf <- aggregate(list(total_steps = myact$steps), list(date = myact$date), sum, na.rm=TRUE)
+```
+Histogram Plot of Total steps taken per day:
+```{r echo=TRUE}
+hist(newdf$total_steps)
+abline(v=mean(newdf$total_steps), lty=3, col="blue")                   # draw a blue line thru the mean  
+abline(v=median(newdf$total_steps), lty=4, col="red")                  # draw a red line thru the median  
+text(mean(newdf$total_steps),25,labels="mean", pos=4, col="blue")       
+text(mean(newdf$total_steps),23,labels="median", pos=4, col="red")  
+```
 
+Mean & Median steps taken per day:
+```{r echo=TRUE}
+summary(newdf$total_steps)
+```
 
 
 ## What is the average daily activity pattern?
