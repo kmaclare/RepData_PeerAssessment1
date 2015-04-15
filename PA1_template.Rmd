@@ -47,7 +47,23 @@ abline(v=maxInt, lty=4, col="red")
 ```
 
 ## Imputing missing values
+Calculate and report the total number of missing values
 
+Strategy for filling in missing values = mean for that interval across all days
+
+Create a new dataset with missing values filled in
+
+Create a histogram of new dataset
+
+Show mean/median of new dataset
+
+Comparison from previous dataset
+
+Impact of imputing values = ____________________
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+New factor variable for weekday & weekend (use weekday() function against date variable coerced to datetime class)
+
+Panel plot comparing activity plot by weekday & weekend
