@@ -59,7 +59,16 @@ summary(newdf$total_steps)
 
 ## What is the average daily activity pattern?
 
+```r
+newdf2 <- aggregate(list(avg_steps = myact$steps), list(interval=myact$interval), mean, na.rm=TRUE)
+plot.new()
+plot(newdf2$interval, newdf2$avg_steps, type="l")
+lines(newdf2$interval, newdf2$avg_steps, col="black")
+maxInt <- newdf2[which.max(newdf2$avg_steps),1]
+abline(v=maxInt, lty=4, col="red")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
 
 ## Imputing missing values
 
