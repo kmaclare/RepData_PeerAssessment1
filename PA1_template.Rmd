@@ -6,7 +6,7 @@ output:
 ---
 
 
-## Loading and preprocessing the data
+## Loading and preprocessing the data - csv file contained in zip file
 ```{r echo=TRUE}
 myact <- read.csv("activity.csv")
 str(myact)
@@ -48,22 +48,50 @@ abline(v=maxInt, lty=4, col="red")
 
 ## Imputing missing values
 Calculate and report the total number of missing values
-
+```{r echo=TRUE}
+cat("total records: ", nrow(myact))
+cat("total NAs: ",sum(is.na(myact)))
+```
 Strategy for filling in missing values = mean for that interval across all days
 
 Create a new dataset with missing values filled in
+```{r echo=TRUE}
+newact <- myact
+# convert date to datetime class
+newact$date <- as.Date(newact$date)
+# loop through newact
+for (i in 1:nrow(newact)) {
+#   if find NA in newact$steps, replace with newdf2$steps (average) for matching interval
+    if (is.na(newact[i,1])) {
+        newact[i,1] <- newdf2[which(newdf2$interval == newact[i,3]), 2]
+    }
+}
+
+```
 
 Create a histogram of new dataset
+```{r echo=TRUE}
+newdf3 <- aggregate(list(total_steps = newact$steps), list(date = newact$date), sum, na.rm=TRUE)
+hist(newdf3$total_steps)
+abline(v=mean(newdf3$total_steps), lty=3, col="blue")                   # draw a blue line thru the mean  
+abline(v=median(newdf3$total_steps), lty=4, col="red")                  # draw a red line thru the median  
+text(mean(newdf3$total_steps),25,labels="mean", pos=4, col="blue")       
+text(mean(newdf3$total_steps),23,labels="median", pos=4, col="red")  
+```
 
 Show mean/median of new dataset
-
+```{r echo=TRUE}
+summary(newdf3$total_steps)
+```
 Comparison from previous dataset
-
-Impact of imputing values = ____________________
+ - strengthens the mean, to the point the median == mean
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-New factor variable for weekday & weekend (use weekday() function against date variable coerced to datetime class)
-
+New factor variable for weekday & weekend (use weekdays() function against date variable)
+```{r echo=TRUE}
+newact$daytype <- ifelse(weekdays(newact$date) %in% c("Saturday", "Sunday"), "weekend", "weekday")
+head(newact, 2000)
+```
 Panel plot comparing activity plot by weekday & weekend
