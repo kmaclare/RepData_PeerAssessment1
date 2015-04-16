@@ -92,6 +92,17 @@ Comparison from previous dataset
 New factor variable for weekday & weekend (use weekdays() function against date variable)
 ```{r echo=TRUE}
 newact$daytype <- ifelse(weekdays(newact$date) %in% c("Saturday", "Sunday"), "weekend", "weekday")
-head(newact, 2000)
 ```
 Panel plot comparing activity plot by weekday & weekend
+```{r echo=TRUE, fig.width=10}
+library(lattice)
+newdf4 <- aggregate(list(avg_steps = newact$steps), list(interval=newact$interval, daytype=newact$daytype), mean, na.rm=TRUE)
+xyplot(avg_steps ~ interval| daytype,
+       data=newdf4,
+       lty=1,
+       lwd=3,
+       col.line="black",
+       type="l",
+       layout=c(1,2))
+
+```
